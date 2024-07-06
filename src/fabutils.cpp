@@ -49,7 +49,8 @@ extern "C" {
 //#include <soc/io_mux_reg.h>
 //#include "/insecure/esp-idf-release-v5.2/components/soc/esp32s2/gpio_periph.c"
 //#include "/insecure/esp-idf-release-v5.2/components/soc/esp32/gpio_periph.c"
-#include "/insecure/esp-idf-release-v5.2/components/soc/include/soc/gpio_periph.h"
+//#include "/insecure/esp-idf-release-v5.2/components/soc/include/soc/gpio_periph.h"
+#include "soc/gpio_periph.h"
 #include "driver/gpio.h"
 
 
