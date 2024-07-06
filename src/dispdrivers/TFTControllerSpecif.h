@@ -48,6 +48,11 @@
 namespace fabgl {
 
 
+class ST7735Controller : public TFTController {
+protected:
+  void softReset();
+};
+
 
 /**
  * @brief Implements ST7789 display driver controller.
