@@ -1,3 +1,4 @@
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 idf_component_register(SRC_DIRS src
                                 src/comdrivers
                                 src/devdrivers

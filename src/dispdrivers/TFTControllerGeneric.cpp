@@ -31,6 +31,7 @@
 #include "freertos/task.h"
 
 #include "esp_log.h"
+#include "esp_timer.h"
 
 #include "fabutils.h"
 #include "TFTControllerGeneric.h"
@@ -178,6 +179,7 @@ void TFTController::begin(SPIClass * spi, gpio_num_t DC, gpio_num_t RESX, gpio_n
 // use SPIClass
 // without CS it is not possible to share SPI with other devices
 #ifdef ARDUINO
+
 void TFTController::begin(SPIClass * spi, int DC, int RESX, int CS, int BL, int freq)
 {
   begin(spi, int2gpio(DC), int2gpio(RESX), int2gpio(CS), int2gpio(BL), freq);
@@ -187,6 +189,8 @@ void TFTController::begin(SPIClass * spi, int DC, int RESX, int CS, int BL, int 
 
 // use SDK driver
 // without CS it is not possible to share SPI with other devices
+//DisplayController.begin(TFT_SCK, TFT_MOSI, TFT_DC, TFT_RESET, TFT_CS, TFT_SPIBUS);
+
 void TFTController::begin(int SCK, int MOSI, int DC, int RESX, int CS, int host, int BL, int freq)
 {
   m_SPIHost = (spi_host_device_t)host;
@@ -196,7 +200,7 @@ void TFTController::begin(int SCK, int MOSI, int DC, int RESX, int CS, int host,
   m_RESX    = int2gpio(RESX);
   m_CS      = int2gpio(CS);
   m_BL      = int2gpio(BL);
-  m_freq    = freq;
+  m_freq    = 100000;//freq;
 
   setupGPIO();
   SPIBegin();
@@ -205,7 +209,7 @@ void TFTController::begin(int SCK, int MOSI, int DC, int RESX, int CS, int host,
 
 void TFTController::begin()
 {
-  begin(18, 23, 22, 21, 5, VSPI_HOST);
+  begin(18, 23, 22, 21, 5, SPI1_HOST); // FIXME
 }
 
 

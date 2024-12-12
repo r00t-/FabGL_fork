@@ -38,12 +38,20 @@ extern "C" {
 #include "esp_vfs_fat.h"
 #include "esp_task_wdt.h"
 #include "driver/sdspi_host.h"
-#include "sdmmc_cmd.h"
+//#include "sdmmc_cmd.h"
 #include "esp_spiffs.h"
 #include "soc/efuse_reg.h"
 #include "soc/rtc.h"
 #include "esp_ipc.h"
 #include "soc/adc_channel.h"
+#include "esp_timer.h"
+
+//#include <soc/io_mux_reg.h>
+//#include "/insecure/esp-idf-release-v5.2/components/soc/esp32s2/gpio_periph.c"
+//#include "/insecure/esp-idf-release-v5.2/components/soc/esp32/gpio_periph.c"
+#include "/insecure/esp-idf-release-v5.2/components/soc/include/soc/gpio_periph.h"
+#include "driver/gpio.h"
+
 
 #include "fabutils.h"
 #include "fabglconf.h"
@@ -146,8 +154,8 @@ uint32_t msToTicks(int ms)
 ////////////////////////////////////////////////////////////////////////////////////////////
 // getChipPackage
 
-#ifndef FABGL_EMULATED
-
+//#ifndef FABGL_EMULATED
+#if 0
 ChipPackage getChipPackage()
 {
   // read CHIP_VER_PKG (block0, byte 3, 105th bit % 32 = 9, 3 bits)
@@ -170,6 +178,7 @@ ChipPackage getChipPackage()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
+#if 0
 adc1_channel_t ADC1_GPIO2Channel(gpio_num_t gpio)
 {
   switch (gpio) {
@@ -193,7 +202,7 @@ adc1_channel_t ADC1_GPIO2Channel(gpio_num_t gpio)
       return ADC1_CHANNEL_0;
   }
 }
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // configureGPIO
@@ -244,7 +253,7 @@ struct esp_intr_alloc_args {
   TaskHandle_t    waitingTask;
 };
 
-
+#if 0
 void esp_intr_alloc_pinnedToCore_call(void * arg)
 {
   auto args = (esp_intr_alloc_args*) arg;
@@ -257,6 +266,7 @@ void esp_intr_alloc_pinnedToCore(int source, int flags, intr_handler_t handler, 
   esp_intr_alloc_args args = { source, flags, handler, arg, ret_handle, xTaskGetCurrentTaskHandle() };
   esp_ipc_call_blocking(core, esp_intr_alloc_pinnedToCore_call, &args);
 }
+#endif
 
 #endif
 
@@ -636,7 +646,7 @@ int8_t         FileBrowser::s_SDCardMISO;
 int8_t         FileBrowser::s_SDCardMOSI;
 int8_t         FileBrowser::s_SDCardCLK;
 int8_t         FileBrowser::s_SDCardCS;
-sdmmc_card_t * FileBrowser::s_SDCard = nullptr;
+//sdmmc_card_t * FileBrowser::s_SDCard = nullptr;
 
 // slow down SD card. Using ESP32 core 2.0.0 may crash SD subsystem, having VGA output and WiFi enabled
 // @TODO: check again next versions
@@ -1166,7 +1176,8 @@ DriveType FileBrowser::getDriveType(char const * path)
 }
 
 
-#ifdef FABGL_EMULATED
+//#ifdef FABGL_EMULATED
+#if 1
 
 bool FileBrowser::format(DriveType driveType, int drive)
 {
@@ -1224,7 +1235,8 @@ bool FileBrowser::format(DriveType driveType, int drive)
 #endif
 
 
-#ifdef FABGL_EMULATED
+//#ifdef FABGL_EMULATED
+#if 1
 
 bool FileBrowser::mountSDCard(bool formatOnFail, char const * mountPath, size_t maxFiles, int allocationUnitSize, int MISO, int MOSI, int CLK, int CS)
 {
@@ -1257,7 +1269,7 @@ bool FileBrowser::mountSDCard(bool formatOnFail, char const * mountPath, size_t 
   s_SDCardCS                 = CS;
   s_SDCardMounted            = false;
 
-  sdmmc_host_t host = SDSPI_HOST_DEFAULT();
+  //sdmmc_host_t host = SDSPI_HOST_DEFAULT();
   host.slot = HSPI_HOST;
 
   #if FABGL_ESP_IDF_VERSION <= FABGL_ESP_IDF_VERSION_VAL(3, 3, 5)
@@ -1268,12 +1280,12 @@ bool FileBrowser::mountSDCard(bool formatOnFail, char const * mountPath, size_t 
   slot_config.gpio_sck  = int2gpio(CLK);
   slot_config.gpio_cs   = int2gpio(CS);
 
-  esp_vfs_fat_sdmmc_mount_config_t mount_config;
+  //esp_vfs_fat_sdmmc_mount_config_t mount_config;
   mount_config.format_if_mount_failed = formatOnFail;
   mount_config.max_files              = maxFiles;
   mount_config.allocation_unit_size   = allocationUnitSize;
 
-  s_SDCardMounted = (esp_vfs_fat_sdmmc_mount(mountPath, &host, &slot_config, &mount_config, &s_SDCard) == ESP_OK);
+  s_SDCardMounted = false; //(esp_vfs_fat_sdmmc_mount(mountPath, &host, &slot_config, &mount_config, &s_SDCard) == ESP_OK);
 
   #else
 
@@ -1293,12 +1305,13 @@ bool FileBrowser::mountSDCard(bool formatOnFail, char const * mountPath, size_t 
     slot_config.gpio_cs = int2gpio(CS);
     slot_config.host_id = (spi_host_device_t) host.slot;
 
-    esp_vfs_fat_sdmmc_mount_config_t mount_config;
+    //esp_vfs_fat_sdmmc_mount_config_t mount_config;
     mount_config.format_if_mount_failed = formatOnFail;
     mount_config.max_files              = maxFiles;
     mount_config.allocation_unit_size   = allocationUnitSize;
 
-    r = esp_vfs_fat_sdspi_mount(mountPath, &host, &slot_config, &mount_config, &s_SDCard);
+    //r = esp_vfs_fat_sdspi_mount(mountPath, &host, &slot_config, &mount_config, &s_SDCard);
+    r = ESP_ERROR;
 
     s_SDCardMounted = (r == ESP_OK);
   }
@@ -1323,9 +1336,9 @@ void FileBrowser::unmountSDCard()
 {
   if (s_SDCardMounted) {
     #if FABGL_ESP_IDF_VERSION <= FABGL_ESP_IDF_VERSION_VAL(3, 3, 5)
-    esp_vfs_fat_sdmmc_unmount();
+    //esp_vfs_fat_sdmmc_unmount();
     #else
-    esp_vfs_fat_sdcard_unmount(s_SDCardMountPath, s_SDCard);
+    //esp_vfs_fat_sdcard_unmount(s_SDCardMountPath, s_SDCard);
     #endif
     s_SDCardMounted = false;
   }

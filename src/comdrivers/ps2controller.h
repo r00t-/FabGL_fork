@@ -124,7 +124,7 @@ public:
 
   static void end();
 
-  static bool initialized() { return s_initDone; }
+  static bool initialized() { return false /*s_initDone*/; }
 
   /**
    * @brief Determines if one byte has been received from the specified port
@@ -176,7 +176,7 @@ public:
    *
    * @return A pointer to a Keyboard object
    */
-  static Keyboard * keyboard()                { return s_keyboard; }
+  static Keyboard * keyboard()                { return nullptr /*s_keyboard*/; }
 
   static void setKeyboard(Keyboard * value)   { s_keyboard = value; }
 
@@ -185,7 +185,7 @@ public:
    *
    * @return A pointer to a Mouse object
    */
-  static Mouse * mouse()                      { return s_mouse; }
+  static Mouse * mouse()                      { return nullptr /*s_mouse*/; }
 
   static void setMouse(Mouse * value)         { s_mouse = value; }
 

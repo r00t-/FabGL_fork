@@ -177,7 +177,8 @@ bool Keyboard::setLEDs(bool numLock, bool capsLock, bool scrollLock)
   m_numLockLED    = numLock;
   m_capsLockLED   = capsLock;
   m_scrollLockLED = scrollLock;
-  return send_cmdLEDs(numLock, capsLock, scrollLock);
+  //return send_cmdLEDs(numLock, capsLock, scrollLock);
+  return 0;
 }
 
 
@@ -191,7 +192,7 @@ void Keyboard::getLEDs(bool * numLock, bool * capsLock, bool * scrollLock)
 
 void Keyboard::updateLEDs()
 {
-  send_cmdLEDs(m_NUMLOCK, m_CAPSLOCK, m_SCROLLLOCK);
+  //send_cmdLEDs(m_NUMLOCK, m_CAPSLOCK, m_SCROLLLOCK);
   m_numLockLED    = m_NUMLOCK;
   m_capsLockLED   = m_CAPSLOCK;
   m_scrollLockLED = m_SCROLLLOCK;

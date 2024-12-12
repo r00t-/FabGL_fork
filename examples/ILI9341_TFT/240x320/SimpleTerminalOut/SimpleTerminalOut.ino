@@ -40,33 +40,61 @@
 #include "vtanimations.h"
 
 
+#include "soc/rtc_wdt.h"
+
+
 
 fabgl::ILI9341Controller DisplayController;
 fabgl::Terminal          Terminal;
 
+/*
+from CYD2USB/User_Setup.h
+#define TFT_BL 21             // LED back-light control pin
+#define TFT_BACKLIGHT_ON HIGH // Level to turn ON back-light (HIGH or LOW)
+#define TFT_MISO 12
+#define TFT_MOSI 13
+#define TFT_SCLK 14
+#define TFT_CS 15 // Chip select control pin
+#define TFT_DC 2  // Data Command control pin
+#define TFT_RST -1 // Set TFT_RST to -1 if display RESET is connected to ESP32 board RST
+*/
 
-#define TFT_SCK    18
-#define TFT_MOSI   23
-#define TFT_CS     5
-#define TFT_DC     22
-#define TFT_RESET  21
+#define TFT_SCK    14
+#define TFT_MOSI   13
+#define TFT_CS     15
+#define TFT_DC     2
+#define TFT_RESET  -1
 #define TFT_SPIBUS VSPI_HOST
 
+#define TFT_BL 21             // LED back-light control pin
+#define TFT_BACKLIGHT_ON HIGH // Level to turn ON back-light (HIGH or LOW)
 
 void setup()
 {
-  //Serial.begin(115200); delay(500); Serial.write("\n\n\n"); // DEBUG ONLY
+  Serial.begin(115200); delay(500); Serial.write("\n\nsetup()\n"); // DEBUG ONLY
 
-  DisplayController.begin(TFT_SCK, TFT_MOSI, TFT_DC, TFT_RESET, TFT_CS, TFT_SPIBUS);
+// rtc_wdt_protect_off();
+// rtc_wdt_disable();
+
+
+//  DisplayController.begin(TFT_SCK, TFT_MOSI, TFT_DC, TFT_RESET, TFT_CS, TFT_SPIBUS);
+//void TFTController::begin(int SCK, int MOSI, int DC, int RESX, int CS, int host, int BL, int freq)
+  DisplayController.begin(TFT_SCK, TFT_MOSI, TFT_DC, TFT_RESET, TFT_CS, TFT_SPIBUS,TFT_BL,500000);
+
+
   DisplayController.setResolution(TFT_240x320);
   DisplayController.setOrientation(fabgl::TFTOrientation::Rotate90);
 
   Terminal.begin(&DisplayController);
-  //Terminal.setLogStream(Serial);  // DEBUG ONLY
+  Terminal.setLogStream(Serial);  // DEBUG ONLY
 
   Terminal.loadFont(&fabgl::FONT_6x10);
 
+//pinMode(TFT_BL, OUTPUT); // Set GPIO22 as digital output pin
+//digitalWrite(TFT_BL, TFT_BACKLIGHT_ON); // Set GPIO22 active high
+
   Terminal.enableCursor(true);
+  Serial.begin(115200); delay(500); Serial.write("\n\nsetup() done\n"); // DEBUG ONLY
 }
 
 
@@ -222,14 +250,19 @@ void demo5()
 void loop()
 {
   delay(1000);
+  Serial.write("\n\ndemo1()\r\n");
   demo1();
   delay(4000);
+  Serial.write("\n\ndemo2()\r\n");
   demo2();
   delay(4000);
+  Serial.write("\n\ndemo3()\r\n");
   demo3();
   delay(4000);
+  Serial.write("\n\ndemo4()\r\n");
   demo4();
   delay(4000);
+  Serial.write("\n\ndemo5()\r\n");
   demo5();
   delay(4000);
 }

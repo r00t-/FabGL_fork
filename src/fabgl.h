@@ -313,32 +313,34 @@
 #include "fabfonts.h"
 #include "terminal.h"
 #include "displaycontroller.h"
-#include "dispdrivers/vgacontroller.h"
+//#include "dispdrivers/vgacontroller.h"
 #include "dispdrivers/SSD1306Controller.h"
 #include "dispdrivers/TFTControllerSpecif.h"
-#include "dispdrivers/vgatextcontroller.h"
-#include "dispdrivers/vga2controller.h"
-#include "dispdrivers/vga4controller.h"
-#include "dispdrivers/vga8controller.h"
-#include "dispdrivers/vga16controller.h"
-#include "dispdrivers/vgadirectcontroller.h"
-#include "dispdrivers/cvbs16controller.h"
+//#include "dispdrivers/vgatextcontroller.h"
+//#include "dispdrivers/vga2controller.h"
+//#include "dispdrivers/vga4controller.h"
+//include "dispdrivers/vga8controller.h"
+//#include "dispdrivers/vga16controller.h"
+//#include "dispdrivers/vgadirectcontroller.h"
+//#include "dispdrivers/cvbs16controller.h"
 #include "fabui.h"
-#include "inputbox.h"
+//#include "inputbox.h"
+/*
 #include "comdrivers/ps2controller.h"
-#include "comdrivers/tsi2c.h"
+*/
+//#include "comdrivers/tsi2c.h"
 #include "devdrivers/keyboard.h"
 #include "devdrivers/mouse.h"
 #include "devdrivers/DS3231.h"
-#include "comdrivers/serialport.h"
+//#include "comdrivers/serialport.h"
 #include "scene.h"
 #include "collisiondetector.h"
-#include "devdrivers/soundgen.h"
+//#include "devdrivers/soundgen.h"
 
 
 
 using fabgl::Color;
-using fabgl::VGAScanStart;
+//using fabgl::VGAScanStart;
 using fabgl::GlyphOptions;
 using fabgl::Scene;
 using fabgl::Bitmap;
@@ -350,6 +352,7 @@ using fabgl::Rect;
 using fabgl::MouseDelta;
 using fabgl::MouseStatus;
 using fabgl::CursorName;
+#if 0
 using fabgl::SoundGenerator;
 using fabgl::SoundGenMethod;
 using fabgl::SineWaveformGenerator;
@@ -360,6 +363,7 @@ using fabgl::TriangleWaveformGenerator;
 using fabgl::SawtoothWaveformGenerator;
 using fabgl::SamplesGenerator;
 using fabgl::WaveformGenerator;
+#endif
 using fabgl::TermType;
 using fabgl::SupportedTerminals;
 using fabgl::PS2Preset;
@@ -375,16 +379,16 @@ using fabgl::RGB222;
 using fabgl::RGBA2222;
 using fabgl::RGB888;
 using fabgl::RGBA8888;
-using fabgl::FlowControl;
-using fabgl::LineEditorSpecialChar;
-using fabgl::LineEditor;
+//using fabgl::FlowControl;
+//using fabgl::LineEditorSpecialChar;
+//using fabgl::LineEditor;
 using fabgl::TerminalController;
 using fabgl::LineEnds;
 using fabgl::CharStyle;
 using fabgl::TerminalTransition;
 using fabgl::SupportedLayouts;
 using fabgl::CoreUsage;
-using fabgl::InputResult;
-using fabgl::InputBox;
+//using fabgl::InputResult;
+//using fabgl::InputBox;
 
 

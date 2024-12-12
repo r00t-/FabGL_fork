@@ -27,6 +27,8 @@
 
 #pragma once
 
+#include "sdkconfig.h"
+#include "driver/gpio.h"
 
 /**
  * @file
@@ -41,9 +43,9 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
-#include <driver/adc.h>
+//#include <driver/adc.h>
 #include <esp_system.h>
-#include "sdmmc_cmd.h"
+//#include "sdmmc_cmd.h"
 #include "soc/frc_timer_reg.h"
 #include "rom/lldesc.h"
 
@@ -977,7 +979,7 @@ private:
   static int8_t         s_SDCardMOSI;
   static int8_t         s_SDCardCLK;
   static int8_t         s_SDCardCS;
-  static sdmmc_card_t * s_SDCard;
+  //static sdmmc_card_t * s_SDCard;
   static int            s_SDCardMaxFreqKHz;
 
   char *    m_dir;
@@ -1073,7 +1075,7 @@ inline __attribute__((always_inline)) uint32_t getCycleCount() {
 void replacePathSep(char * path, char newSep);
 
 
-adc1_channel_t ADC1_GPIO2Channel(gpio_num_t gpio);
+//adc1_channel_t ADC1_GPIO2Channel(gpio_num_t gpio);
 
 
 void esp_intr_alloc_pinnedToCore(int source, int flags, intr_handler_t handler, void * arg, intr_handle_t * ret_handle, int core);

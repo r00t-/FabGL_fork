@@ -52,7 +52,7 @@
 #include "canvas.h"
 #include "devdrivers/keyboard.h"
 #include "terminfo.h"
-#include "devdrivers/soundgen.h"
+//#include "devdrivers/soundgen.h"
 
 
 
@@ -1288,7 +1288,7 @@ public:
    *
    * @return SoundGenerator object
    */
-  SoundGenerator * soundGenerator();
+  //SoundGenerator * soundGenerator();
 
 
 
@@ -1596,7 +1596,7 @@ private:
   // used by extGetIntParam(), extGetCmdParam(), extGetByteParam() to store next item (to avoid insertToInputQueue() which can cause dead-locks)
   int                       m_extNextCode; // -1 = no code
 
-  SoundGenerator *          m_soundGenerator;
+  //SoundGenerator *          m_soundGenerator;
 
   Sprite *                  m_sprites;
   int                       m_spritesCount;

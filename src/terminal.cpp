@@ -174,7 +174,7 @@ int Terminal::keyboardReaderTaskStackSize = FABGLIB_DEFAULT_TERMINAL_KEYBOARD_RE
 Terminal::Terminal()
   : m_canvas(nullptr),
     m_mutex(nullptr),
-    m_soundGenerator(nullptr),
+    //m_soundGenerator(nullptr),
     m_sprites(nullptr),
     m_spritesCount(0)
 {
@@ -189,8 +189,8 @@ Terminal::~Terminal()
   if (m_mutex)
     end();
 
-  if (m_soundGenerator)
-    delete m_soundGenerator;
+  //if (m_soundGenerator)
+  //  delete m_soundGenerator;
 
   freeSprites();
 }
@@ -2157,7 +2157,7 @@ void Terminal::execCtrlCode(uint8_t c)
 
     // BELL
     case ASCII_BEL:
-      sound('1', 800, 250, 100);  // square wave, 800 Hz, 250ms, volume 100
+      //sound('1', 800, 250, 100);  // square wave, 800 Hz, 250ms, volume 100
       break;
 
     // XOFF
@@ -3228,7 +3228,7 @@ void Terminal::consumeOSC()
   }
 }
 
-
+#if 0
 SoundGenerator * Terminal::soundGenerator()
 {
   if (!m_soundGenerator)
@@ -3261,7 +3261,7 @@ void Terminal::sound(int waveform, int frequency, int duration, int volume)
       break;
   }
 }
-
+#endif
 
 // get a single byte from getNextCode() or m_extNextCode
 uint8_t Terminal::extGetByteParam()
@@ -3694,6 +3694,7 @@ void Terminal::consumeFabGLSeq()
     //                   '2' = 6dB   (reduced to 1/2), full-scale voltage 2.2 V, accurate between 150 to 1750 mV
     //                   '3' = 11dB  (reduced to 1/3.6), full-scale voltage 3.9 V (maximum volatage is still 3.3V!!), accurate between 150 to 2450 mV
     //    GPIONUM (text)     : '32'...'39'
+#if 0
     case FABGLEXTX_SETUPADC:
     {
       auto width   = (adc_bits_width_t) (extGetIntParam() - 9);
@@ -3706,7 +3707,7 @@ void Terminal::consumeFabGLSeq()
       adc1_config_channel_atten(channel, atten);
       break;
     }
-
+#endif
     // Read ADC
     // Seq:
     //    ESC FABGLEXT_STARTCODE FABGLEXTX_READADC GPIONUM FABGLEXT_ENDCODE
@@ -3722,6 +3723,7 @@ void Terminal::consumeFabGLSeq()
     //       '0'
     //       'A'
     //       '0'
+#if 0
     case FABGLEXTX_READADC:
     {
       auto val = adc1_get_raw(ADC1_GPIO2Channel((gpio_num_t)extGetIntParam()));
@@ -3732,7 +3734,7 @@ void Terminal::consumeFabGLSeq()
       send(toupper(digit2hex(val & 0x00F)));
       break;
     }
-
+#endif
     // Sound
     // Seq:
     //    ESC FABGLEXT_STARTCODE FABGLEXTX_SOUND WAVEFORM ';' FREQUENCY ';' DURATION ';' VOLUME FABGLEXT_ENDCODE
@@ -3751,7 +3753,7 @@ void Terminal::consumeFabGLSeq()
       extGetByteParam();  // ';'
       uint8_t volume     = extGetIntParam() & 0x7f;
       extGetByteParam();  // FABGLEXT_ENDCODE
-      sound(waveform, frequency, duration, volume);
+      //sound(waveform, frequency, duration, volume);
       break;
     }
 

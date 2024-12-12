@@ -35,7 +35,7 @@
 
 #include "driver/dac.h"
 #include "soc/i2s_reg.h"
-#include "driver/periph_ctrl.h"
+//#include "driver/periph_ctrl.h"
 #include "soc/rtc.h"
 #include <soc/sens_reg.h>
 #include "esp_log.h"
