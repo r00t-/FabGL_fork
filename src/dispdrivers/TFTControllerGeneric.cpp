@@ -200,7 +200,7 @@ void TFTController::begin(int SCK, int MOSI, int DC, int RESX, int CS, int host,
   m_RESX    = int2gpio(RESX);
   m_CS      = int2gpio(CS);
   m_BL      = int2gpio(BL);
-  m_freq    = 100000;//freq;
+  m_freq    = freq; // 100000;//freq;
 
   setupGPIO();
   SPIBegin();
