@@ -808,8 +808,8 @@ void Terminal::int_clear()
   log("int_clear()\n");
   #endif
 
-  if (m_bitmappedDisplayController && isActive())
-    m_canvas->clear();
+//  if (m_bitmappedDisplayController && isActive())
+//    m_canvas->clear();
   clearMap(m_glyphsBuffer.map);
 }
 
